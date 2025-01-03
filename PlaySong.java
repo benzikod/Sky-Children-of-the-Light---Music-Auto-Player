@@ -20,19 +20,10 @@ import static SkyStudioApp.Main.*;
 
 
 public class PlaySong{
-    public static class SongNote {
-        public String key;
-        public long time;
-    }
-    public static class Song {
-        public String name;
-        public int bpm;
-        public List<SongNote> songNotes;
-    }
-    private static AtomicBoolean isPaused = new AtomicBoolean(false);
+    private static final AtomicBoolean isPaused = new AtomicBoolean(false);
+    private static final AtomicBoolean isPlaying = new AtomicBoolean(false);
     private static long pauseStartTime = 0;
     private static long totalPausedTime = 0;
-    private static AtomicBoolean isPlaying = new AtomicBoolean(false);
 
     public static void formatAndSaveJson(String filePath) {
         try {
@@ -54,6 +45,7 @@ public class PlaySong{
             System.err.println("Error formatting and saving JSON: " + e.getMessage());
         }
     }
+
     public static List<Song> loadSongsFromJson(String filePath) throws IOException, JsonSyntaxException {
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
         String content;
@@ -91,6 +83,7 @@ public class PlaySong{
             }
         }
     }
+
     public static void playSong(Song song) throws AWTException {
         if (song == null || song.songNotes == null || song.songNotes.isEmpty()) {
             throw new IllegalArgumentException("Invalid song data");
@@ -125,7 +118,7 @@ public class PlaySong{
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
         });
@@ -136,7 +129,7 @@ public class PlaySong{
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -222,5 +215,16 @@ public class PlaySong{
         keyMap.put("1Key14", KeyEvent.VK_SLASH);
 
         return keyMap.getOrDefault(key, -1);
+    }
+
+    public static class SongNote {
+        public String key;
+        public long time;
+    }
+
+    public static class Song {
+        public String name;
+        public int bpm;
+        public List<SongNote> songNotes;
     }
 }

@@ -4,22 +4,23 @@ import com.google.gson.JsonSyntaxException;
 import java.awt.AWTException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import static SkyStudioApp.PlaySong.*;
 
 public class Main {
-    public static String userDir = System.getProperty("user.dir");
-    public static String SongName = "Lemon - 米津玄師.json"; //音樂名稱+.json
     public static final float SONG_SPEED = 1.03f; //播歌速度
-    public static boolean USE_SUSTAIN = true; //是否有延音
     public static final boolean Loop = false; // true: 循環播放所有歌曲, false: 只播放指定歌曲
+    public static String userDir = System.getProperty("user.dir");
+    public static String SongName = "紅蓮華.json"; //音樂名稱+.json
+    public static boolean USE_SUSTAIN = true; //是否有延音
 
     public static void main(String[] args) throws InterruptedException {
-        Thread.sleep(1500);
-        String musicFolder = userDir + "/src/SkyStudioApp/Music/";
-        String filePath = musicFolder + SongName;
+        Thread.sleep(2000);
+        String musicFolder = Paths.get(userDir, "SkyStudioApp", "Music").toString();
+        String filePath = Paths.get(musicFolder, SongName).toString();
 
         try {
             if (Loop) {
